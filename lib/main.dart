@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image/image.dart' as img;
+import 'package:path_provider/path_provider.dart';
+
 
 
 void main() {
@@ -91,6 +93,22 @@ class _EncryptionPageState extends State<EncryptionPage> {
   TextEditingController keyController = TextEditingController();
   String result = '';
 
+  Future<void> _pickMessageFromFile() async {
+    FilePickerResult? fileResult = await FilePicker.platform.pickFiles();
+
+    if (fileResult != null) {
+      String fileContent = String.fromCharCodes(fileResult.files.single.bytes!);
+      print('Panjang pesan: ${fileContent.length}');
+      
+      setState(() {
+        messageController.text = fileContent;
+      });
+    }
+  }
+
+  
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,20 +121,7 @@ class _EncryptionPageState extends State<EncryptionPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
              ElevatedButton(
-              onPressed: () async {
-                // Menggunakan file_picker untuk memilih file
-                FilePickerResult? result = await FilePicker.platform.pickFiles();
-
-                if (result != null) {
-                  // Baca isi file
-                  String fileContent = String.fromCharCodes(result.files.single.bytes!);
-                   print('Panjang pesan: ${fileContent.length}'); 
-                  // Update teks di TextField
-                  setState(() {
-                    messageController.text = fileContent;
-                  });
-                }
-              },
+              onPressed : _pickMessageFromFile,
               child: Text('Pilih Pesan dari File'),
             ),
             TextField(
@@ -160,40 +165,41 @@ class _EncryptionPageState extends State<EncryptionPage> {
 
                 // Display result
                  showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Hasil Enkripsi'),
-          content: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SelectableText(result),
-              SizedBox(height: 10),
-              ElevatedButton(
-                onPressed: () async {
-                  // Menyalin hasil ke Clipboard
-                  await Clipboard.setData(ClipboardData(text: result));
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Teks berhasil disalin ke Clipboard')),
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text('Hasil Enkripsi'),
+                        content: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SelectableText(result),
+                            SizedBox(height: 10),
+                            ElevatedButton(
+                              onPressed: () async {
+                                // Menyalin hasil ke Clipboard
+                                await Clipboard.setData(ClipboardData(text: result)); 
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text('Teks berhasil disalin ke Clipboard')),
+                                );
+                              },
+                              child: Text('Salin'),
+                            ),
+                          ],
+                        ),
+                        actions: [
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: Text('OK'),
+                          ),
+                        ],
+                      );
+                    },
                   );
                 },
-                child: Text('Salin'),
-              ),
-            ],
-          ),
-          actions: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
-  },
+
               child: Text('Enkripsi'),
             ),
           ],
@@ -330,6 +336,39 @@ class _SteganographyPageState extends State<SteganographyPage> {
     }
   }
 
+  Future<void> _saveImage() async {
+  if (_imageFile == null) {
+    return;
+  }
+
+  // Menggunakan package path_provider untuk mendapatkan direktori penyimpanan eksternal
+  final directory = await getExternalStorageDirectory();
+  final imagePath = '${directory!.path}/hidden_image.png';
+
+  // Menyimpan gambar tersembunyi
+  await _imageFile!.copy(imagePath);
+
+  // Menampilkan pesan sukses
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Success'),
+        content: Text('Hidden image saved successfully!'),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('OK'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+
   Future<void> _hideMessage() async {
     if (_imageFile == null) {
       return;
@@ -430,6 +469,11 @@ class _SteganographyPageState extends State<SteganographyPage> {
             ElevatedButton(
               onPressed: _hideMessage,
               child: Text('Hide Message'),
+            ),
+            SizedBox(height: 16),
+            ElevatedButton(
+              onPressed: _saveImage, // Tambahkan fungsi untuk menyimpan gambar
+              child: Text('Save Image'),
             ),
             SizedBox(height: 16),
             ElevatedButton(
