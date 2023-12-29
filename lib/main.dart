@@ -9,6 +9,7 @@ import 'package:path_provider/path_provider.dart';
 
 
 
+
 void main() {
   runApp(MyApp());
 }
@@ -105,9 +106,6 @@ class _EncryptionPageState extends State<EncryptionPage> {
       });
     }
   }
-
-  
-
 
   @override
   Widget build(BuildContext context) {
