@@ -3,20 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class Util {
-  // static e.Encrypted encrypt(String message, String key) {
-  //   final utfKey = e.Key.fromUtf8(key);
-  //   final encrypter = e.Encrypter(e.AES(utfKey, mode: e.AESMode.cbc));
-  //   final initVector = e.IV.fromUtf8(key.substring(0, 16));
-  //   e.Encrypted encryptedData = encrypter.encrypt(message, iv: initVector);
-  //   return encryptedData;
-  // }
-
-  // static String decrypt(e.Encrypted encryptedText, String key) {
-  //   final utfKey = e.Key.fromUtf8(key);
-  //   final encrypter = e.Encrypter(e.AES(utfKey, mode: e.AESMode.cbc));
-  //   final initVector = e.IV.fromUtf8(key.substring(0, 16));
-  //   return encrypter.decrypt(encryptedText, iv: initVector);
-  // }
 
   static String generateKey(int length) {
     const String charset =
@@ -31,13 +17,13 @@ class Util {
     return key;
   }
 
-  static showInfoDialog(BuildContext context, Function onYes) {
+  static showInfoDialog(BuildContext context, String message, Function onYes) {
     showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
           title: Text('Success'),
-          content: Text('Hidden image saved successfully!'),
+          content: Text(message),
           actions: [
             ElevatedButton(
               onPressed: () {

@@ -97,6 +97,7 @@ class _EncodePageState extends State<EncodePage> {
   }
 
   Future<void> _pickImage(ImageSource source) async {
+    // Only PNG allowed for steganography
     final pickedFile = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowMultiple: false,
@@ -117,20 +118,18 @@ class _EncodePageState extends State<EncodePage> {
       return;
     }
 
-    // ecryption and steganography the message
+    // Get path download directory
     String extPath = await ExternalPath.getExternalStoragePublicDirectory(
         ExternalPath.DIRECTORY_DOWNLOADS);
-    final imagePath = extPath + "/steglock_" + Path.basename(_imageFile!.path);
-    debugPrint(
-        '${_messageController.text} ----- ${_passwordController.text} --- ${imagePath}');
-    // await imageFile?.copy(imagePath);
+
+    // ecnryption and steganography. File save in download directory
     File? file = await Steganograph.encode(
       image: File(_imageFile!.path),
       message: _messageController.text,
       encryptionKey: _passwordController.text,
       outputFilePath: extPath + "/steglock_" + Path.basename(_imageFile!.path),
     );
-    debugPrint(file!.path);
-    Util.showInfoDialog(context, () {});
+    
+    Util.showInfoDialog(context, "Steganography file saved in Downloads directory.", () {});
   }
 }

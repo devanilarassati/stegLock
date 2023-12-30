@@ -3,10 +3,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:steganograph/steganograph.dart';
-import 'package:steglock2/supports/util.dart';
-import 'package:steglock2/supports/extensions.dart';
 
 class DecodePage extends StatefulWidget {
   @override
@@ -78,7 +75,7 @@ class _DecodePageState extends State<DecodePage> {
                   onPressed: () {
                     Clipboard.setData(ClipboardData(text: _hiddenMessage ?? ""));
                   },
-                  child: Text('Hidden Message: ${_hiddenMessage}'),
+                  child: Text('Hidden Message:\n${_hiddenMessage}'),
                 ),
               ],
             ),
@@ -89,6 +86,7 @@ class _DecodePageState extends State<DecodePage> {
   }
 
   Future<void> _pickImage(ImageSource source) async {
+    // Only PNG allowed for steganography
     final pickedFile = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowMultiple: false,
@@ -109,12 +107,11 @@ class _DecodePageState extends State<DecodePage> {
 
     //decode with same encryption key used to encode
     //to retrieve encrypted message
-    debugPrint(_imageFile?.path);
-    File imageFile = File(_imageFile!.path);
     String? embeddedMessage = await Steganograph.decode(
       image: File(_imageFile!.path),
       encryptionKey: _passwordController.text,
     );
+
     setState(() {
       _hiddenMessage = embeddedMessage ?? "";
     });
