@@ -43,6 +43,7 @@ class _EncryptionPageState extends State<EncryptionPage> {
             ),
             TextField(
               controller: messageController,
+              minLines: 3,
               decoration: InputDecoration(labelText: 'Masukkan Pesan'),
             ),
             TextField(
@@ -78,7 +79,7 @@ class _EncryptionPageState extends State<EncryptionPage> {
                 }
 
                 // Perform encryption
-                result = Util.encryptOTP(message, key);
+                // result = Util.encryptOTP(message, key);
 
                 // Display result
                 showDialog(

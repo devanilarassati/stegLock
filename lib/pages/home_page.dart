@@ -1,9 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:steglock2/pages/decode_page.dart';
 import 'package:steglock2/pages/decryption_page.dart';
 import 'package:steglock2/pages/encryption_page.dart';
-import 'package:steglock2/pages/steganography_page.dart';
+import 'package:steglock2/pages/encode_page.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+  @override
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _grantPermission();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +53,7 @@ class HomePage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SteganographyPage()),
+                  MaterialPageRoute(builder: (context) => EncodePage()),
                 );
               },
               child: Text('Encode'),
@@ -48,7 +63,7 @@ class HomePage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => SteganographyPage()),
+                  MaterialPageRoute(builder: (context) => DecodePage()),
                 );
               },
               child: Text('Decode'),
@@ -58,4 +73,15 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
+
+  void _grantPermission () async {
+    var status = await Permission.storage.status;
+    if (status.isGranted) {
+
+    } else {
+      await Permission.storage.request();
+      status = await Permission.storage.status;
+      print(status);
+    }
+ }
 }

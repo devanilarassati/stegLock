@@ -1,39 +1,34 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 class Util {
-  static encryptOTP(String message, String key) {
-    if (message.length != key.length) {
-      throw Exception("Panjang pesan dan kunci harus sama.");
+  // static e.Encrypted encrypt(String message, String key) {
+  //   final utfKey = e.Key.fromUtf8(key);
+  //   final encrypter = e.Encrypter(e.AES(utfKey, mode: e.AESMode.cbc));
+  //   final initVector = e.IV.fromUtf8(key.substring(0, 16));
+  //   e.Encrypted encryptedData = encrypter.encrypt(message, iv: initVector);
+  //   return encryptedData;
+  // }
+
+  // static String decrypt(e.Encrypted encryptedText, String key) {
+  //   final utfKey = e.Key.fromUtf8(key);
+  //   final encrypter = e.Encrypter(e.AES(utfKey, mode: e.AESMode.cbc));
+  //   final initVector = e.IV.fromUtf8(key.substring(0, 16));
+  //   return encrypter.decrypt(encryptedText, iv: initVector);
+  // }
+
+  static String generateKey(int length) {
+    const String charset =
+        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#\$%^&*()_+';
+    Random random = Random();
+    String key = '';
+
+    for (int i = 0; i < length; i++) {
+      int randomIndex = random.nextInt(charset.length);
+      key += charset[randomIndex];
     }
-
-    List<int> encrypted = [];
-    for (int i = 0; i < message.length; i++) {
-      int messageChar = message.codeUnitAt(i);
-      int keyChar = key.codeUnitAt(i);
-
-      int encryptedChar = messageChar ^ keyChar;
-      encrypted.add(encryptedChar);
-    }
-
-    return String.fromCharCodes(encrypted);
-  }
-
-  static decryptOTP(String encryptedText, String key) {
-    List<int> encrypted = encryptedText.runes.toList();
-    if (encrypted.length != key.length) {
-      throw Exception("Panjang teks terenkripsi dan kunci harus sama.");
-    }
-
-    String decryptedMessage = "";
-    for (int i = 0; i < encrypted.length; i++) {
-      int encryptedChar = encrypted[i];
-      int keyChar = key.codeUnitAt(i);
-
-      int decryptedChar = encryptedChar ^ keyChar;
-      decryptedMessage += String.fromCharCode(decryptedChar);
-    }
-
-    return decryptedMessage;
+    return key;
   }
 
   static showInfoDialog(BuildContext context, Function onYes) {

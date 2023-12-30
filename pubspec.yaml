@@ -32,6 +32,9 @@ dependencies:
   image: ^3.0.1
   image_picker: 1.0.5
   file_picker: ^4.0.10
+  steganograph: ^1.0.0
+  permission_handler: ^11.1.0
+  external_path: ^1.0.3
   flutter:
     sdk: flutter
   

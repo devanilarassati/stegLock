@@ -62,7 +62,7 @@ class _DecryptionPageState extends State<DecryptionPage> {
                 }
 
                 // Perform decryption
-                result = Util.decryptOTP(encryptedText, key);
+                // result = Util.decrypt(encryptedText, key);
 
                 // Display result
                 showDialog(
