@@ -91,7 +91,7 @@ class _DecodePageState extends State<DecodePage> {
     final pickedFile = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowMultiple: false,
-      allowedExtensions: ['png'],
+      allowedExtensions: ['png','jpeg', 'jpg'],
     );
 
     if (pickedFile != null) {

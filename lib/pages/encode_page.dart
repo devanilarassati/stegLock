@@ -103,7 +103,7 @@ class _EncodePageState extends State<EncodePage> {
     final pickedFile = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowMultiple: false,
-      allowedExtensions: ['png'],
+      allowedExtensions: ['png', 'jpeg', 'jpg'],
     );
 
     if (pickedFile != null) {
