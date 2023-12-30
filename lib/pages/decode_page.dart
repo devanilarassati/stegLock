@@ -73,7 +73,8 @@ class _DecodePageState extends State<DecodePage> {
                 SizedBox(height: 16),
                 TextButton(
                   onPressed: () {
-                    Clipboard.setData(ClipboardData(text: _hiddenMessage ?? ""));
+                    Clipboard.setData(
+                        ClipboardData(text: _hiddenMessage ?? ""));
                   },
                   child: Text('Hidden Message:\n${_hiddenMessage}'),
                 ),
@@ -113,7 +114,7 @@ class _DecodePageState extends State<DecodePage> {
     );
 
     setState(() {
-      _hiddenMessage = embeddedMessage ?? "";
+      _hiddenMessage = embeddedMessage ?? "No hidden information found in image.";
     });
   }
 }

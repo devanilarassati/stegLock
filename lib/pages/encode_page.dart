@@ -2,8 +2,9 @@ import 'dart:io';
 import 'package:external_path/external_path.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:igodo/igodo.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:steganograph/steganograph.dart';
 import 'package:steglock2/supports/util.dart';
 import 'package:path/path.dart' as Path;
@@ -16,6 +17,7 @@ class EncodePage extends StatefulWidget {
 class _EncodePageState extends State<EncodePage> {
   File? _imageFile;
   bool _passwordVisible = false;
+  String _encryptedMessage = "";
   final TextEditingController _messageController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
@@ -81,13 +83,13 @@ class _EncodePageState extends State<EncodePage> {
                   onPressed: _hideMessage,
                   child: Text('Hide Message'),
                 ),
-                // SizedBox(height: 16),
-                // TextButton(
-                //   onPressed: () {
-                //     Clipboard.setData(ClipboardData(text: _key));
-                //   },
-                //   child: Text('Key: ${_key}'),
-                // ),
+                SizedBox(height: 16),
+                TextButton(
+                  onPressed: () {
+                    Clipboard.setData(ClipboardData(text: _encryptedMessage));
+                  },
+                  child: Text('Encrypted Message:\n${_encryptedMessage}'),
+                ),
               ],
             ),
           ),
@@ -122,14 +124,24 @@ class _EncodePageState extends State<EncodePage> {
     String extPath = await ExternalPath.getExternalStoragePublicDirectory(
         ExternalPath.DIRECTORY_DOWNLOADS);
 
+    String outputFile =
+        '${extPath}/steglock_${Util.generateKey(7)}_${Path.basename(_imageFile!.path)}';
+
     // ecnryption and steganography. File save in download directory
     File? file = await Steganograph.encode(
       image: File(_imageFile!.path),
       message: _messageController.text,
       encryptionKey: _passwordController.text,
-      outputFilePath: extPath + "/steglock_" + Path.basename(_imageFile!.path),
+      outputFilePath: outputFile,
     );
-    
-    Util.showInfoDialog(context, "Steganography file saved in Downloads directory.", () {});
+
+    // Show the encrupted message
+    setState(() {
+      _encryptedMessage =
+          Igodo.encrypt(_messageController.text, _passwordController.text);
+    });
+
+    Util.showInfoDialog(
+        context, "Steganography file saved in Downloads directory.", () {});
   }
 }

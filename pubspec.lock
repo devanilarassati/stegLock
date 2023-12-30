@@ -217,7 +217,7 @@ packages:
     source: hosted
     version: "4.0.2"
   igodo:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: igodo
       sha256: e12ef48b8ed3ca5f5a89dec5955d7b7ee368b6d37c34569b006180f23640529a

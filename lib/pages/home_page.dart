@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:steglock2/pages/decode_page.dart';
-import 'package:steglock2/pages/decryption_page.dart';
-import 'package:steglock2/pages/encryption_page.dart';
 import 'package:steglock2/pages/encode_page.dart';
 
 class HomePage extends StatefulWidget {
@@ -29,25 +27,6 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => EncryptionPage()),
-                );
-              },
-              child: Text('Enkripsi'),
-            ),
-            SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => DecryptionPage()),
-                );
-              },
-              child: Text('Deskripsi'),
-            ),
             SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
