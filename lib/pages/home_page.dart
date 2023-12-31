@@ -22,14 +22,15 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 203, 148, 212),
         title: Row(
           children: [
-            Image.asset(
-              'assets/ICON STEGLOCK.png',  // Sesuaikan dengan path ikon Anda
-              height: 60,  // Sesuaikan dengan ukuran yang diinginkan
-              width: 60,
+            Icon(
+              Icons.lock,
+              color: Colors.white,
+              size: 32,
             ),
-            SizedBox(width: 8), // Jarak antara ikon dan teks
+            SizedBox(width: 8), 
             Text('StegLock'),
           ],
         ),
@@ -37,7 +38,7 @@ class _HomePageState extends State<HomePage> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/BG STEGLOCK3.png'), // Ganti dengan path gambar yang sesuai
+            image: AssetImage('assets/BG STEGLOCK3.png'), 
             fit: BoxFit.cover,
           ),
         ),
@@ -53,7 +54,12 @@ class _HomePageState extends State<HomePage> {
                     MaterialPageRoute(builder: (context) => EncodePage()),
                   );
                 },
-                child: Text('Encode'),
+                style: ElevatedButton.styleFrom(
+                primary: Color.fromARGB(255, 203, 148, 212), // Ganti dengan warna ungu yang diinginkan
+              ),
+                child: Text('Encode', style: TextStyle(
+                  color: Colors.black, // Ganti dengan warna teks yang diinginkan
+                ),),
               ),
               SizedBox(height: 20),
               ElevatedButton(
@@ -63,7 +69,12 @@ class _HomePageState extends State<HomePage> {
                     MaterialPageRoute(builder: (context) => DecodePage()),
                   );
                 },
-                child: Text('Decode'),
+                style: ElevatedButton.styleFrom(
+                  primary: Color.fromARGB(255, 203, 148, 212), // Ganti dengan warna ungu yang diinginkan
+                ),
+                child: Text('Decode', style: TextStyle(
+                  color: Colors.black, // Ganti dengan warna teks yang diinginkan
+                ),),
               ),
             ],
           ),

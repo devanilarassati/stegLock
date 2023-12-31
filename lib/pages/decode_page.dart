@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:steganograph/steganograph.dart';
 
+
 class DecodePage extends StatefulWidget {
   @override
   _DecodePageState createState() => _DecodePageState();
@@ -31,7 +32,12 @@ class _DecodePageState extends State<DecodePage> {
               children: [
                 ElevatedButton(
                   onPressed: () => _pickImage(ImageSource.gallery),
-                  child: Text('Choose Image'),
+                  style: ElevatedButton.styleFrom(
+                    primary: Color.fromARGB(255, 203, 148, 212), // Ganti dengan warna ungu yang diinginkan
+                  ),
+                  child: Text('Choose Image', style: TextStyle(
+                  color: Colors.black, // Ganti dengan warna teks yang diinginkan
+                ),),
                 ),
                 SizedBox(height: 16),
                 _imageFile != null
@@ -68,7 +74,12 @@ class _DecodePageState extends State<DecodePage> {
                 SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: _hideMessage,
-                  child: Text('Show Message'),
+                  style: ElevatedButton.styleFrom(
+                    primary: Color.fromARGB(255, 203, 148, 212), // Ganti dengan warna ungu yang diinginkan
+                  ),
+                  child: Text('Show Message', style: TextStyle(
+                  color: Colors.black, // Ganti dengan warna teks yang diinginkan
+                ),),
                 ),
                 SizedBox(height: 16),
                 TextButton(
@@ -76,7 +87,9 @@ class _DecodePageState extends State<DecodePage> {
                     Clipboard.setData(
                         ClipboardData(text: _hiddenMessage ?? ""));
                   },
-                  child: Text('Hidden Message:\n${_hiddenMessage}'),
+                  child: Text('Hidden Message:\n${_hiddenMessage}', style: TextStyle(
+                  color: Colors.black, // Ganti dengan warna teks yang diinginkan
+                ),),
                 ),
               ],
             ),
@@ -91,7 +104,7 @@ class _DecodePageState extends State<DecodePage> {
     final pickedFile = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowMultiple: false,
-      allowedExtensions: ['png','jpeg', 'jpg'],
+      allowedExtensions: ['png'],
     );
 
     if (pickedFile != null) {

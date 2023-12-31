@@ -14,12 +14,14 @@ class EncodePage extends StatefulWidget {
   _EncodePageState createState() => _EncodePageState();
 }
 
+
 class _EncodePageState extends State<EncodePage> {
   File? _imageFile;
   bool _passwordVisible = false;
   String _encryptedMessage = "";
   final TextEditingController _messageController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final Set<String> usedKeys = {};
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,14 @@ class _EncodePageState extends State<EncodePage> {
       appBar: AppBar(
         title: Text('Steganography'),
       ),
-      body: Expanded(
+      body: Container(
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/BG STEGLOCK_1.png"), // Ganti dengan path ke gambar latar belakang
+            fit: BoxFit.cover, // Atur sesuai kebutuhan, misalnya BoxFit.fill
+          ),
+        ),
+            child: Expanded(
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -36,7 +45,12 @@ class _EncodePageState extends State<EncodePage> {
               children: [
                 ElevatedButton(
                   onPressed: () => _pickImage(ImageSource.gallery),
-                  child: Text('Choose Image'),
+                  style: ElevatedButton.styleFrom(
+                    primary: Color.fromARGB(255, 203, 148, 212), // Ganti dengan warna ungu yang diinginkan
+                  ),
+                  child: Text('Choose Image', style: TextStyle(
+                  color: Colors.black, // Ganti dengan warna teks yang diinginkan
+                ),),
                 ),
                 SizedBox(height: 16),
                 _imageFile != null
@@ -81,21 +95,28 @@ class _EncodePageState extends State<EncodePage> {
                 SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: _hideMessage,
-                  child: Text('Hide Message'),
+                  style: ElevatedButton.styleFrom(
+                    primary: Color.fromARGB(255, 203, 148, 212), // Ganti dengan warna ungu yang diinginkan
+                  ),
+                  child: Text('Hide Message', style: TextStyle(
+                  color: Colors.black, // Ganti dengan warna teks yang diinginkan
+                ),),
                 ),
                 SizedBox(height: 16),
                 TextButton(
                   onPressed: () {
                     Clipboard.setData(ClipboardData(text: _encryptedMessage));
                   },
-                  child: Text('Encrypted Message:\n${_encryptedMessage}'),
+                  child: Text('Encrypted Message:\n${_encryptedMessage}', style: TextStyle(
+                  color: Colors.black, // Ganti dengan warna teks yang diinginkan
+                ),),
                 ),
               ],
             ),
           ),
         ),
       ),
-    );
+    ));
   }
 
   Future<void> _pickImage(ImageSource source) async {
@@ -103,7 +124,7 @@ class _EncodePageState extends State<EncodePage> {
     final pickedFile = await FilePicker.platform.pickFiles(
       type: FileType.custom,
       allowMultiple: false,
-      allowedExtensions: ['png', 'jpeg', 'jpg'],
+      allowedExtensions: ['png'],
     );
 
     if (pickedFile != null) {
@@ -117,6 +138,22 @@ class _EncodePageState extends State<EncodePage> {
 
   Future<void> _hideMessage() async {
     if (_imageFile == null) {
+      return;
+    }
+
+  // Validate the character length of messages and passwords
+  if (_messageController.text.length != _passwordController.text.length) {
+    Util.showInfoDialog(context, "Message and password must have the same length.", () {});
+    return;
+  }
+
+  if (usedKeys.contains(_passwordController.text)) {
+      Util.showInfoDialog(context, "Password can only be used once.", () {});
+      return;
+    }
+
+  if (_passwordController.text.toLowerCase() == _messageController.text.toLowerCase()) {
+      Util.showInfoDialog(context, "Password cannot contain the same word as the message.", () {});
       return;
     }
 
@@ -140,6 +177,10 @@ class _EncodePageState extends State<EncodePage> {
       _encryptedMessage =
           Igodo.encrypt(_messageController.text, _passwordController.text);
     });
+
+
+  // Tambahkan kunci ke dalam daftar kunci yang telah digunakan
+    usedKeys.add(_passwordController.text);
 
     Util.showInfoDialog(
         context, "Steganography file saved in Downloads directory.", () {});
