@@ -27,16 +27,10 @@ class _EncodePageState extends State<EncodePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+         backgroundColor: Color.fromARGB(255, 203, 148, 212),
         title: Text('Steganography'),
       ),
       body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/BG STEGLOCK_1.png"), // Ganti dengan path ke gambar latar belakang
-            fit: BoxFit.cover, // Atur sesuai kebutuhan, misalnya BoxFit.fill
-          ),
-        ),
-            child: Expanded(
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -46,10 +40,10 @@ class _EncodePageState extends State<EncodePage> {
                 ElevatedButton(
                   onPressed: () => _pickImage(ImageSource.gallery),
                   style: ElevatedButton.styleFrom(
-                    primary: Color.fromARGB(255, 203, 148, 212), // Ganti dengan warna ungu yang diinginkan
+                    primary: Color.fromARGB(255, 203, 148, 212), 
                   ),
                   child: Text('Choose Image', style: TextStyle(
-                  color: Colors.black, // Ganti dengan warna teks yang diinginkan
+                  color: Colors.black, 
                 ),),
                 ),
                 SizedBox(height: 16),
@@ -96,10 +90,10 @@ class _EncodePageState extends State<EncodePage> {
                 ElevatedButton(
                   onPressed: _hideMessage,
                   style: ElevatedButton.styleFrom(
-                    primary: Color.fromARGB(255, 203, 148, 212), // Ganti dengan warna ungu yang diinginkan
+                    primary: Color.fromARGB(255, 203, 148, 212), 
                   ),
                   child: Text('Hide Message', style: TextStyle(
-                  color: Colors.black, // Ganti dengan warna teks yang diinginkan
+                  color: Colors.black, 
                 ),),
                 ),
                 SizedBox(height: 16),
@@ -108,15 +102,14 @@ class _EncodePageState extends State<EncodePage> {
                     Clipboard.setData(ClipboardData(text: _encryptedMessage));
                   },
                   child: Text('Encrypted Message:\n${_encryptedMessage}', style: TextStyle(
-                  color: Colors.black, // Ganti dengan warna teks yang diinginkan
+                  color: Colors.black, 
                 ),),
                 ),
               ],
             ),
           ),
-        ),
-      ),
-    ));
+        ),),
+    );
   }
 
   Future<void> _pickImage(ImageSource source) async {

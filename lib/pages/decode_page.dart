@@ -21,6 +21,7 @@ class _DecodePageState extends State<DecodePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Color.fromARGB(255, 203, 148, 212),
         title: Text('Steganography'),
       ),
       body: Expanded(
