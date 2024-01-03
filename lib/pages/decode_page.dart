@@ -22,7 +22,7 @@ class _DecodePageState extends State<DecodePage> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color.fromARGB(255, 203, 148, 212),
-        title: Text('Steganography'),
+        title: Text('Decode'),
       ),
       body: Expanded(
         child: SingleChildScrollView(

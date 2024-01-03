@@ -28,7 +28,7 @@ class _EncodePageState extends State<EncodePage> {
     return Scaffold(
       appBar: AppBar(
          backgroundColor: Color.fromARGB(255, 203, 148, 212),
-        title: Text('Steganography'),
+        title: Text('Encode'),
       ),
       body: Container(
         child: SingleChildScrollView(
@@ -136,17 +136,17 @@ class _EncodePageState extends State<EncodePage> {
 
   // Validate the character length of messages and passwords
   if (_messageController.text.length != _passwordController.text.length) {
-    Util.showInfoDialog(context, "Message and password must have the same length.", () {});
+    Util.showInfoDialogWarning(context, "Message and password must have the same length.", () {});
     return;
   }
 
   if (usedKeys.contains(_passwordController.text)) {
-      Util.showInfoDialog(context, "Password can only be used once.", () {});
+      Util.showInfoDialogWarning(context, "Password can only be used once.", () {});
       return;
     }
 
   if (_passwordController.text.toLowerCase() == _messageController.text.toLowerCase()) {
-      Util.showInfoDialog(context, "Password cannot contain the same word as the message.", () {});
+      Util.showInfoDialogWarning(context, "Password cannot contain the same word as the message.", () {});
       return;
     }
 
@@ -172,7 +172,7 @@ class _EncodePageState extends State<EncodePage> {
     });
 
 
-  // Tambahkan kunci ke dalam daftar kunci yang telah digunakan
+  // Add the key to the list of keys already in use
     usedKeys.add(_passwordController.text);
 
     Util.showInfoDialog(
