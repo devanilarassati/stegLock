@@ -46,7 +46,7 @@ class _HomePageState extends State<HomePage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SizedBox(height: 20),
+              SizedBox(height: 35),
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(
@@ -76,6 +76,21 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.black, // Ganti dengan warna teks yang diinginkan
                 ),),
               ),
+              SizedBox(height: 20),
+              ElevatedButton(
+                onPressed: () {
+                  _showHelpDialog(context);
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Color.fromARGB(255, 203, 148, 212),
+                ),
+                child: Text(
+                  'Help', // Teks yang ditampilkan pada tombol
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
+              ),
             ],
           ),
         ),
@@ -93,4 +108,103 @@ class _HomePageState extends State<HomePage> {
       print(status);
     }
  }
+  void _showHelpDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Cara Penggunaan Aplikasi StegLock',
+        textAlign: TextAlign.center,),
+        content: Padding(
+          padding: const EdgeInsets.only(top: 16.0), // Tambahkan jarak di atas konten
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+                  Text('1.', style: TextStyle(fontWeight: FontWeight.bold)),
+                  SizedBox(width: 8),  // Tambahkan jarak antara nomor dan penjelasannya
+                  Expanded(
+                    child: Text('Klik tombol encode. Kemudian, klik tombol "Choose Image", pilih gambar berformat .png.'),
+                  ),
+                ],
+              ),
+                      Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('2.', style: TextStyle(fontWeight: FontWeight.bold)),
+                  SizedBox(width: 8),  // Tambahkan jarak antara nomor dan penjelasannya
+                  Expanded(
+                    child: Text('Masukkan pesan teks yang ingin disembunyikan.'),
+                  ),
+                ],
+              ),
+                      Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('3.', style: TextStyle(fontWeight: FontWeight.bold)),
+                  SizedBox(width: 8),  // Tambahkan jarak antara nomor dan penjelasannya
+                  Expanded(
+                    child: Text('Masukkan password untuk enkripsi dan encode. Pesan dan Password harus memiliki panjang karakter yang sama!'),
+                  ),
+                ],
+              ),
+                      Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('4.', style: TextStyle(fontWeight: FontWeight.bold)),
+                  SizedBox(width: 8),  // Tambahkan jarak antara nomor dan penjelasannya
+                  Expanded(
+                    child: Text('Tekan tombol "Hide Message" untuk menyembunyikan pesan.'),
+                  ),
+                ],
+              ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('5.', style: TextStyle(fontWeight: FontWeight.bold)),
+                          SizedBox(width: 8),  // Tambahkan jarak antara nomor dan penjelasannya
+                          Expanded(
+                            child: Text('Pesan teks berhasil dienkripsi dan disisipkan pada gambar. File tersisipi tersimpan pada folder download smartphone'),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('6.', style: TextStyle(fontWeight: FontWeight.bold)),
+                          SizedBox(width: 8),  // Tambahkan jarak antara nomor dan penjelasannya
+                          Expanded(
+                            child: Text('Untuk mengambil informasi teks yang tersisipi pada gambar .png. Klik "choose image" dan pilih file gambar .png yang sudah tersisispi informasi teks'),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('7.', style: TextStyle(fontWeight: FontWeight.bold)),
+                          SizedBox(width: 8),  // Tambahkan jarak antara nomor dan penjelasannya
+                          Expanded(
+                            child: Text('Masukkan password yang sama seperti pada saat proses encode dan klik "show message". Maka akan muncul informasi teks yang tersembunyi.'),
+                          ),
+                        ],
+                      ),
+            ],
+          ),
+        ),
+        actions: [
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: Text('Tutup'),
+          ),
+        ],
+       // Atur contentPadding untuk memperkecil ukuran popup
+        contentPadding: EdgeInsets.symmetric(horizontal: 8.0, vertical:05.0),
+      );
+    },
+  );
+}
 }

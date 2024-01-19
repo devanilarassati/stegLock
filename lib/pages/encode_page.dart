@@ -1,13 +1,14 @@
 import 'dart:io';
+
 import 'package:external_path/external_path.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:igodo/igodo.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart' as Path;
 import 'package:steganograph/steganograph.dart';
 import 'package:steglock2/supports/util.dart';
-import 'package:path/path.dart' as Path;
 
 class EncodePage extends StatefulWidget {
   @override
@@ -54,38 +55,57 @@ class _EncodePageState extends State<EncodePage> {
                       )
                     : Container(),
                 SizedBox(height: 16),
-                TextField(
+                TextFormField(
                   controller: _messageController,
                   minLines: 3,
                   maxLines: null,
                   keyboardType: TextInputType.multiline,
                   textCapitalization: TextCapitalization.sentences,
-                  decoration: InputDecoration(labelText: 'Enter Message'),
-                ),
-                TextField(
-                  controller: _passwordController,
-                  obscureText: !_passwordVisible,
-                  enableSuggestions: false,
-                  autocorrect: false,
                   decoration: InputDecoration(
-                    labelText: 'Enter Password',
-                    suffixIcon: GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          _passwordVisible = !_passwordVisible;
-                        });
-                      },
-                      child: Container(
-                          margin: const EdgeInsets.all(13),
-                          child: Icon(
+                    labelText: 'Enter Message',
+                    counterText: '${_messageController.text.length} characters',
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      // Pastikan untuk memanggil setState agar tampilan diperbarui
+                    });
+                  },
+            ),
+                Form(
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                    child: TextFormField(
+                      controller: _passwordController,
+                      obscureText: !_passwordVisible,
+                      enableSuggestions: false,
+                      autocorrect: false,
+                      decoration: InputDecoration(
+                        labelText: 'Enter Password',
+                        counterText:
+                        '${_passwordController.text.length} characters',
+                        suffixIcon: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              _passwordVisible = !_passwordVisible;
+                            });
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.all(13),
+                            child: Icon(
                               this._passwordVisible
                                   ? Icons.visibility
                                   : Icons.visibility_off,
                               color: Colors.grey,
-                              size: 25)),
+                              size: 25,
+                            ),
+                          ),
+                        ),
+                      ),
+                      onChanged: (text) {
+                        setState(() {});
+                      },
                     ),
                   ),
-                ),
+
                 SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: _hideMessage,
@@ -175,7 +195,7 @@ class _EncodePageState extends State<EncodePage> {
   // Add the key to the list of keys already in use
     usedKeys.add(_passwordController.text);
 
-    Util.showInfoDialog(
+    Util.showInfoDialogSuccess(
         context, "Steganography file saved in Downloads directory.", () {});
   }
 }

@@ -17,7 +17,7 @@ class Util {
     return key;
   }
 
-  static showInfoDialog(BuildContext context, String message, Function onYes) {
+  static showInfoDialogSuccess(BuildContext context, String message, Function onYes) {
     showDialog(
       context: context,
       builder: (BuildContext context) {

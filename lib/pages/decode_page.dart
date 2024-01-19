@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -48,13 +49,15 @@ class _DecodePageState extends State<DecodePage> {
                       )
                     : Container(),
                 SizedBox(height: 16),
-                TextField(
+                TextFormField(
                   controller: _passwordController,
                   obscureText: !_passwordVisible,
                   enableSuggestions: false,
                   autocorrect: false,
                   decoration: InputDecoration(
                     labelText: 'Enter Password',
+                    counterText:
+                        '${_passwordController.text.length} characters',
                     suffixIcon: GestureDetector(
                       onTap: () {
                         setState(() {
@@ -71,6 +74,10 @@ class _DecodePageState extends State<DecodePage> {
                               size: 25)),
                     ),
                   ),
+                   onChanged: (value) {
+                    setState(() {
+                    });
+                  },
                 ),
                 SizedBox(height: 16),
                 ElevatedButton(
